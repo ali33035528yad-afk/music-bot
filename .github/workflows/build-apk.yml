@@ -17,18 +17,21 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
       - name: Extract Android project
         run: |
+          rm -rf android-project
+          mkdir android-project
           unzip -o MusicNo_Android_Project-1.zip -d android-project
-
-      - name: Make gradlew executable
-        run: |
-          find android-project -name gradlew -type f -exec chmod +x {} \;
 
       - name: Build APK
         run: |
           cd android-project
-          ./gradlew assembleDebug
+          gradle assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
