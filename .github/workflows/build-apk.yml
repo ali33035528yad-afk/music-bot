@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -27,6 +27,11 @@ jobs:
           rm -rf android-project
           mkdir android-project
           unzip -o MusicNo_Android_Project-1.zip -d android-project
+
+      - name: Enable AndroidX
+        run: |
+          echo "android.useAndroidX=true" > android-project/gradle.properties
+          echo "android.enableJetifier=true" >> android-project/gradle.properties
 
       - name: Build APK
         run: |
